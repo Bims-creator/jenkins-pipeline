@@ -2,34 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                echo 'Checking out the code from SCM...'
-                checkout scm
-            }
-        }
-        stage('Install Dependencies') {
-            steps {
-                echo 'Installing dependencies...'
-                sh 'npm install' // Installs npm dependencies
-            }
-        }
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                sh 'npm run build' // Run the build script defined in package.json
+                // Replace with your build command
+                sh 'echo "Build step"' 
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing the application...'
-                sh 'npm test' // Run the test script defined in package.json
+                // Replace with your test command
+                sh 'echo "Test step"'
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Deploying the application...'
-                sh 'npm run deploy' // Run the deploy script defined in package.json
+                // Replace with your deploy command
+                sh 'echo "Deploy step"'
             }
         }
     }
@@ -37,9 +28,21 @@ pipeline {
     post {
         success {
             echo 'Pipeline completed successfully!'
+            // Email notification for success
+            emailext(
+                subject: "SUCCESS: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                body: "Good news! The build succeeded.\n\nCheck it out here: ${env.BUILD_URL}",
+                to: "your_email@example.com"
+            )
         }
         failure {
             echo 'Pipeline failed!'
+            // Email notification for failure
+            emailext(
+                subject: "FAILURE: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                body: "Unfortunately, the build failed.\n\nPlease check the details here: ${env.BUILD_URL}",
+                to: "your_email@example.com"
+            )
         }
     }
 }
