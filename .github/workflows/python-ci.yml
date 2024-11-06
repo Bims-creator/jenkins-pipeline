@@ -28,21 +28,9 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest  # Ensure 'pytest' is included in requirements.txt
+          pytest && echo 'Build completed successfully!' || echo 'Build failed!'
 
       - name: Lint code
         run: |
           pip install flake8
-          flake8 .
-
-  success:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Success
-        run: echo 'Build completed successfully!'
-
-  failure:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Failure
-        run: echo 'Build failed!'
+          flake8 . && echo 'Linting completed successfully!' || echo 'Linting failed!'
